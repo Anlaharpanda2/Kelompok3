@@ -7,10 +7,8 @@
 ?>
 
 <h1>Data Dosen</h1>
-<?php if($_SESSION['level'] == 'super_admin') : ?>
-    <a href="index.php?page=dosen&action=create" class="btn btn-primary">Tambah Data</a>
-<?php endif ?>
-<table class="table table-bordered">
+<a href="index.php?page=dosen&action=create" class="btn btn-primary">Tambah Data</a>
+<table class="table table-bordered" id="dosen">
     <thead>
         <tr>
             <th scope="col">No</th>
@@ -18,6 +16,7 @@
             <th scope="col">Nama dosen</th>
             <th scope="col">prodi_id</th>
             <th scope="col">Foto</th>
+            <th scope="col">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -34,14 +33,10 @@
             <td>
                 <img src = "<?= $data['foto']?>" style = "width : 100px">
             </td>
-            <?php if($_SESSION['level'] != 'user') : ?>
-                <td>
-                    <a href="index.php?page=prodi&aksi=edit&id_p=<?= $data['id_p']?>" class="btn btn-warning">edit</a>
-                    <?php if($_SESSION['level'] != 'stuff') : ?>
-                        <a href="proses_prodi.php?proses=hapus&id=<?= $data['id_p']?>" onclick="return confirm('Apakah Anda yakin menghapus data ini?')" class="btn btn-danger">hapus</a>
-                    <?php endif ?>
-                </td>
-            <?php endif ?>
+            <td>
+                <a href="index.php?page=prodi&aksi=edit&id_p=<?= $data['id_p']?>" class="btn btn-warning">edit</a>
+                <a href="proses_prodi.php?proses=hapus&id=<?= $data['id_p']?>" onclick="return confirm('Apakah Anda yakin menghapus data ini?')" class="btn btn-danger">hapus</a>
+            </td>
         </tr>
             <?php } ?>
     </tbody>

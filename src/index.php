@@ -1,11 +1,3 @@
-<?php
-    session_start();
-    if(!isset($_SESSION['login'])){
-        header("location: login.php");
-        exit();
-    }
-?>
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -19,7 +11,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Siakad</a>
+            <a class="navbar-brand" href="#">Kelompok3</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,36 +25,14 @@
                 <a class="nav-link" href="index.php?page=mahasiswa">Mahasiswa</a>
                 </li>
 
-                <?php if($_SESSION['level'] != 'user' ) : ?>
-                <li class="nav-item">
-                <a class="nav-link" href="index.php?page=user">User</a>
-                </li>
-                <?php endif ?>
-
                 <li class="nav-item">
                 <a class="nav-link" href="index.php?page=prodi">Prodi</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="index.php?page=dosen">Dosen</a>
                 </li>
-
-                <?php if($_SESSION['level'] != 'user') : ?>
-                    <?php if($_SESSION['level'] != 'stuff') : ?>
-                        <li class="nav-item">
-                        <a class="nav-link" href="index.php?page=mata_kuliah">Mata kuliah</a>
-                        </li>
-                    <?php endif ?>
-                <?php endif ?>
-
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <?=$_SESSION['nama']?>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                </ul>
-                </li>
             </ul>
+
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
@@ -76,9 +46,7 @@
             if($page == "home") include 'home.php';
             if($page == "mahasiswa") include 'mahasiswa.php';
             if($page == "prodi") include 'prodi.php';
-            if($page == "user") include 'user.php';
             if($page == "dosen") include 'dosen.php';
-            if($page == "mata_kuliah") include 'mata_kuliah.php';
         ?>
     </div>
     <div class="text-center bg-dark text-light py-2">
@@ -90,7 +58,7 @@
     <script>
         new DataTable('#prodi');
         new DataTable('#mahasiswa');
-        new DataTable('#mata_kuliah');
+        new DataTable('#dosen');
     </script>
   </body>
 </html>

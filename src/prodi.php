@@ -8,9 +8,7 @@
 
 
 <h1>Data Prodi</h1>
-<?php if($_SESSION['level'] == 'super_admin') : ?>
-    <a href = 'index.php?page=prodi&aksi=create' class = "btn btn-primary ">tambah data</a>
-<?php endif ?>
+<a href = 'index.php?page=prodi&aksi=create' class = "btn btn-primary ">tambah data</a>
 <table class="table table-bordered" id="prodi">
     <thead>
         <tr>
@@ -18,9 +16,7 @@
             <th scope="col">Nama Prodi</th>
             <th scope="col">Jenjang</th>
             <th scope="col">Keterangan</th>
-            <?php if($_SESSION['level'] != 'user') : ?>
-                <th scope="col">aksi</th>
-            <?php endif ?>
+            <th scope="col">aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -34,14 +30,10 @@
             <td><?= $data['nama_prodi'] ?></td>
             <td><?= $data['jenjang']?></td>
             <td><?= $data['keterangan'] ?></td>
-            <?php if($_SESSION['level'] != 'user') : ?>
-                <td>
-                    <a href="index.php?page=prodi&aksi=edit&id_p=<?= $data['id_p']?>" class="btn btn-warning">edit</a>
-                    <?php if($_SESSION['level'] != 'stuff') : ?>
-                        <a href="proses_prodi.php?proses=hapus&id_p=<?= $data['id_p']?>" onclick="return confirm('Apakah Anda yakin menghapus data ini?')" class="btn btn-danger">hapus</a>
-                    <?php endif ?>
-                </td>
-            <?php endif ?>
+            <td>
+                <a href="index.php?page=prodi&aksi=edit&id_p=<?= $data['id_p']?>" class="btn btn-warning">edit</a>
+                <a href="proses_prodi.php?proses=hapus&id_p=<?= $data['id_p']?>" onclick="return confirm('Apakah Anda yakin menghapus data ini?')" class="btn btn-danger">hapus</a>
+            </td>
         </tr>
             <?php } ?>
     </tbody>
