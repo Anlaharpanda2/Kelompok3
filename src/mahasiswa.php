@@ -15,7 +15,6 @@
             <th scope="col">Nama</th>
             <th scope="col">Email</th>
             <th scope="col">NIM</th>
-            <th scope="col">prodi id</th>
             <th scope="col">prodi</th>
             <th scope="col">Gender</th>
             <th scope="col">Hobi</th>
@@ -34,7 +33,6 @@
             <td><?= $data['nama']  ?></td>
             <td><?= $data['email'] ?></td>
             <td><?= $data['nim'] ?></td>
-            <td><?= $data['prodi_id'] ?></td>
             <td><?= $data['nama_prodi'] ?></td>
             <td><?= $data['gender'] == 'L' ? 'Laki-Laki' : 'Perempuan' ?></td>
             <td><?= $data['hobi'] ?></td>
