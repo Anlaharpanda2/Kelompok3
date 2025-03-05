@@ -38,10 +38,15 @@ Pada tugas ini, kami mengembangkan sebuah **sistem berbasis web** menggunakan **
 ```
 📂 proyek-tugas1
  ├── 📂 src
+ │   ├── dosen.php
  │   ├── home.php
  │   ├── index.php
  │   ├── koneksi.php
  │   ├── mahasiswa.php
+ │   ├── person.png
+ │   ├── prodi.php
+ │   ├── proses_dosen.php
  │   ├── proses_mahasiswa.php
+ │   ├── proses_prodi.php
  ├── database.sql
  ├── README.md
