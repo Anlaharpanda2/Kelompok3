@@ -58,14 +58,25 @@ if (isset($_GET['proses']) && $_GET['proses'] == 'simpan') {
     }
 }
 
-// Proses Edit Data
+// Proses Edit Data (Termasuk Update NIP)
 if (isset($_GET['proses']) && $_GET['proses'] == 'edit') {
     if (isset($_POST['submit'])) {
-        $nip = mysqli_real_escape_string($db, $_POST['nip']);
+        $nip_lama = mysqli_real_escape_string($db, $_POST['nip_lama']);
+        $nip_baru = mysqli_real_escape_string($db, $_POST['nip_baru']);
         $prodi_id = mysqli_real_escape_string($db, $_POST['prodi_id']);
         $nama_dosen = mysqli_real_escape_string($db, $_POST['nama_dosen']);
 
-        $queryFoto = mysqli_query($db, "SELECT foto FROM dosen WHERE nip='$nip'");
+        // Cek apakah NIP baru sudah ada di database (jika diubah)
+        if ($nip_lama !== $nip_baru) {
+            $cekNip = mysqli_query($db, "SELECT * FROM dosen WHERE nip='$nip_baru'");
+            if (mysqli_num_rows($cekNip) > 0) {
+                echo "<script>alert('NIP sudah digunakan! Pilih NIP lain.');window.history.back();</script>";
+                exit;
+            }
+        }
+
+        // Ambil data foto lama sebelum mengupdate
+        $queryFoto = mysqli_query($db, "SELECT foto FROM dosen WHERE nip='$nip_lama'");
         $dataFoto = mysqli_fetch_assoc($queryFoto);
         $fotoLama = $dataFoto['foto'];
 
@@ -81,10 +92,13 @@ if (isset($_GET['proses']) && $_GET['proses'] == 'edit') {
             }
         }
 
-        $query = mysqli_query($db, "UPDATE dosen SET nama_dosen='$nama_dosen', prodi_id='$prodi_id', foto='$foto' WHERE nip='$nip'");
+        // Update data di database
+        $query = mysqli_query($db, "UPDATE dosen SET nip='$nip_baru', nama_dosen='$nama_dosen', prodi_id='$prodi_id', foto='$foto' WHERE nip='$nip_lama'");
 
         if ($query) {
             echo "<script>alert('Data berhasil diperbarui');window.location='index.php?page=dosen'</script>";
+        } else {
+            echo "<script>alert('Gagal memperbarui data!');window.history.back();</script>";
         }
     }
 }

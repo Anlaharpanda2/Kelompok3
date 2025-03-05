@@ -84,7 +84,7 @@ case 'create':
 <?php
 break;
 
-// Menampilkan form Edit Data
+// Menampilkan form Edit Data (Termasuk Edit NIP)
 case 'edit':
     $nip = $_GET['nip'];
     $query = mysqli_query($db, "SELECT * FROM dosen WHERE nip='$nip'");
@@ -92,8 +92,10 @@ case 'edit':
 ?>
 <h1>Edit Data Dosen</h1>
 <form action="proses_dosen.php?proses=edit" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="nip" value="<?= $data['nip'] ?>">
-    
+    <label>NIP</label>
+    <input type="text" name="nip_baru" value="<?= $data['nip'] ?>" required class="form-control">
+    <input type="hidden" name="nip_lama" value="<?= $data['nip'] ?>">
+
     <label>Nama Dosen</label>
     <input type="text" name="nama_dosen" value="<?= $data['nama_dosen'] ?>" required class="form-control">
 
@@ -109,7 +111,10 @@ case 'edit':
         <?php } ?>
     </select>
 
-    <label>Upload Foto</label>
+    <label>Foto Saat Ini</label><br>
+    <img src="<?= $data['foto'] ?>" style="width: 100px;"><br>
+
+    <label>Upload Foto Baru (Opsional)</label>
     <input type="file" name="fileToUpload" class="form-control">
     
     <button type="submit" name="submit" class="btn btn-primary">Update</button>
