@@ -19,13 +19,13 @@ switch ($action) {
 <table class="table table-bordered table-striped" id="dosen">
     <thead class="table-dark">
         <tr>
-            <th scope="col">No</th>
-            <th scope="col">NIP</th>
-            <th scope="col">Nama Dosen</th>
-            <th scope="col">Prodi ID</th>
-            <th scope="col">Nama Prodi</th>
-            <th scope="col">Foto</th>
-            <th scope="col">Aksi</th>
+            <th>No</th>
+            <th>NIP</th>
+            <th>Nama Dosen</th>
+            <th>Prodi ID</th>
+            <th>Nama Prodi</th>
+            <th>Foto</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -35,16 +35,13 @@ switch ($action) {
             while ($data = mysqli_fetch_array($queryDosen)) {
         ?>
         <tr>
-            <td scope="row"><?= $no++ ?></td>
+            <td><?= $no++ ?></td>
             <td><?= $data['nip'] ?></td>
             <td><?= $data['nama_dosen'] ?></td>
             <td><?= $data['prodi_id'] ?></td>
             <td><?= $data['nama_prodi'] ?></td>
+            <td><img src="<?= $data['foto'] ?>" style="width: 100px;"></td>
             <td>
-                <img src="<?= $data['foto'] ?>" style="width: 100px;">
-            </td>
-            <td>
-                <!-- Perbaikan Link Edit dan Hapus -->
                 <a href="index.php?page=dosen&action=edit&nip=<?= $data['nip'] ?>" class="btn btn-warning">Edit</a>
                 <a href="proses_dosen.php?proses=hapus&nip=<?= $data['nip'] ?>" 
                    onclick="return confirm('Apakah Anda yakin menghapus data ini?')" 
@@ -59,48 +56,63 @@ switch ($action) {
 break;
 case 'create':
 ?>
-<style>
-    body {
-        background-color: #e3f2fd;
-    }
-    h1 {
-        color: #0d6efd;
-    }
-</style>
-
 <h1>Input Data Dosen</h1>
 <form action="proses_dosen.php?proses=simpan" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="nip" class="form-label">NIP</label>
-        <input type="text" class="form-control border-primary" id="nip" name="nip" required>
-    </div>
-    
-    <div class="mb-3">
-        <label class="form-label">Nama Dosen</label>
-        <input type="text" class="form-control border-primary" name="nama_dosen" required>
-    </div>
+    <label>NIP</label>
+    <input type="text" name="nip" required class="form-control">
 
-    <div class="mb-3">
-        <label for="prodi_id" class="form-label">Prodi</label>
-        <select name="prodi_id" id="prodi_id" class="form-select border-primary" required>
-            <option value="">Pilih Prodi</option>
-            <?php
-                $queryProdi = mysqli_query($db, "SELECT * FROM prodi");
-                while ($data_prodi = mysqli_fetch_array($queryProdi)) {
-            ?>
-                <option value="<?= $data_prodi['id_p'] ?>"><?= $data_prodi['nama_prodi'] ?></option>
-            <?php
-                }
-            ?>
-        </select>
-    </div>
-    
-    <div class="mb-3">
-        <label>Upload Foto</label>
-        <input type="file" name="fileToUpload" id="fileToUpload" class="form-control border-primary">
-    </div>
+    <label>Nama Dosen</label>
+    <input type="text" name="nama_dosen" required class="form-control">
 
-    <button type="submit" name="submit" value="simpan" class="btn btn-success">Submit</button>
+    <label>Prodi</label>
+    <select name="prodi_id" required class="form-control">
+        <option value="">Pilih Prodi</option>
+        <?php
+            $queryProdi = mysqli_query($db, "SELECT * FROM prodi");
+            while ($data_prodi = mysqli_fetch_array($queryProdi)) {
+        ?>
+            <option value="<?= $data_prodi['id_p'] ?>"><?= $data_prodi['nama_prodi'] ?></option>
+        <?php } ?>
+    </select>
+
+    <label>Upload Foto</label>
+    <input type="file" name="fileToUpload" class="form-control">
+
+    <button type="submit" name="submit" class="btn btn-success">Submit</button>
+</form>
+
+<?php
+break;
+
+// Menampilkan form Edit Data
+case 'edit':
+    $nip = $_GET['nip'];
+    $query = mysqli_query($db, "SELECT * FROM dosen WHERE nip='$nip'");
+    $data = mysqli_fetch_array($query);
+?>
+<h1>Edit Data Dosen</h1>
+<form action="proses_dosen.php?proses=edit" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="nip" value="<?= $data['nip'] ?>">
+    
+    <label>Nama Dosen</label>
+    <input type="text" name="nama_dosen" value="<?= $data['nama_dosen'] ?>" required class="form-control">
+
+    <label>Prodi</label>
+    <select name="prodi_id" required class="form-control">
+        <option value="">Pilih Prodi</option>
+        <?php
+            $queryProdi = mysqli_query($db, "SELECT * FROM prodi");
+            while ($data_prodi = mysqli_fetch_array($queryProdi)) {
+                $selected = ($data_prodi['id_p'] == $data['prodi_id']) ? "selected" : "";
+        ?>
+            <option value="<?= $data_prodi['id_p'] ?>" <?= $selected ?>><?= $data_prodi['nama_prodi'] ?></option>
+        <?php } ?>
+    </select>
+
+    <label>Upload Foto</label>
+    <input type="file" name="fileToUpload" class="form-control">
+    
+    <button type="submit" name="submit" class="btn btn-primary">Update</button>
 </form>
 
 <?php
